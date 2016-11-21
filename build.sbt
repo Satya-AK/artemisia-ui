@@ -25,3 +25,28 @@ play.Project.playScalaSettings
 libraryDependencies += "com.typesafe.slick" %% "slick" % "1.0.1"
 
 libraryDependencies += "com.typesafe.play" %% "play-slick" % "0.5.0.2-SNAPSHOT"
+
+lazy val buildReactApp = taskKey[Unit]("build react application")
+
+lazy val cleanReactArtifacts = taskKey[Unit]("clean react artifacts")
+
+cleanReactArtifacts := {
+  val publicDir = baseDirectory.value / "public"
+  val buildPath: File = baseDirectory.value / "react" / "build"
+  publicDir :: buildPath :: Nil foreach  {
+    x => IO.delete(x); IO.createDirectory(x)
+  }
+}
+
+buildReactApp := {
+  val rootPath: File = baseDirectory.value / "react"
+  val buildPath: File = baseDirectory.value / "react" / "build"
+  val publicDirectory: File = baseDirectory.value / "public"
+  if (publicDirectory.list().isEmpty)
+        Process("npm" :: "run" :: "build" :: Nil, rootPath).!
+        IO.copyDirectory(buildPath, publicDirectory, overwrite = true, preserveLastModified = true)
+  }
+
+(compile in Compile) <<= (compile in Compile) dependsOn buildReactApp
+
+(clean) <<= (clean) dependsOn cleanReactArtifacts

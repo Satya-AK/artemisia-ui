@@ -13,6 +13,7 @@ dist
 /.project
 /RUNNING_PID
 /.settings
+react/build
 node_modules/
 /project/*-shim.sbt
 /activator-sbt-atmos-akka-shim.sbt
