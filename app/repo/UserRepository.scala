@@ -14,7 +14,7 @@ import scala.concurrent.Future
 
 
 @Singleton()
-class UserRepository @Inject()(protected val dbConfigProvider: DatabaseConfigProvider) extends
+class UserRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider) extends
   UserRepository.UserRepoHelper with HasDatabaseConfigProvider[JdbcProfile] {
 
   private val logger = Logger(this.getClass)
@@ -36,6 +36,16 @@ class UserRepository @Inject()(protected val dbConfigProvider: DatabaseConfigPro
     userTableQuery.filter(_.id === id).delete
   }
 
+  def removeUserByEmail(email: String): Future[Int] = db.run {
+    logger.debug(s"deleting user $email")
+    userTableQuery.filter(_.email === email).delete
+  }
+
+  def findByEmail(email: String): Future[Option[User]] = db.run {
+    logger.debug(s"searching user with email $email")
+    userTableQuery.filter(_.email === email).result.headOption
+  }
+
   def getAll: Future[List[User]] = db.run {
     logger.debug(s"retrieving all users")
     userTableQuery.to[List].result
@@ -44,6 +54,8 @@ class UserRepository @Inject()(protected val dbConfigProvider: DatabaseConfigPro
   def getById(jobId: Int): Future[Option[User]] = db.run {
     userTableQuery.filter(_.id === jobId).result.headOption
   }
+
+
 
   def ddl = userTableQuery.schema
 
@@ -67,16 +79,15 @@ object UserRepository {
       val nickName = column[String]("nickname", O.SqlType("VARCHAR(40)"))
       val firstName = column[String]("first_name", O.SqlType("VARCHAR(40)"))
       val lastName = column[String]("last_name", O.SqlType("VARCHAR(40)"))
+      val password = column[String]("password", O.SqlType("VARCHAR(40)"))
       val activated = column[Boolean]("activated")
       val roleId = column[Int]("role_id")
 
 
       def emailUnique = index("email_unique_key", email, unique = true)
 
-      def * = (id.?, email, nickName, firstName, lastName, activated, roleId) <> (User.tupled, User.unapply)
+      def * = (id.?, email, nickName, firstName, lastName, password, activated, roleId) <> (User.tupled, User.unapply)
     }
   }
-
-
 
 }

@@ -17,7 +17,6 @@ class UserRoleRepository @Inject()(protected val dbConfigProvider: DatabaseConfi
 
   import driver.api._
 
-
   def getAll: Future[List[UserRole]] = db.run {
     logger.debug(s"retrieving all users")
     userRoleTableQuery.to[List].result
@@ -28,7 +27,6 @@ class UserRoleRepository @Inject()(protected val dbConfigProvider: DatabaseConfi
   }
 
   def ddl = userRoleTableQuery.schema
-
 
 }
 
@@ -46,7 +44,7 @@ object UserRoleRepository {
       val id = column[Int]("id", O.AutoInc, O.PrimaryKey)
       val roleName = column[String]("name", O.SqlType("VARCHAR(40)"))
 
-      def * = (id, roleName) <> (UserRole.tupled, UserRole.unapply)
+      def * = (id, roleName) <> ((UserRole.apply _).tupled, UserRole.unapply)
 
     }
 
