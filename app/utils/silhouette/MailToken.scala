@@ -1,7 +1,7 @@
 package utils.silhouette
 
+import java.sql.Timestamp
 
-import org.joda.time.DateTime
 
 /**
   * Created by chlr on 11/23/16.
@@ -13,9 +13,9 @@ trait MailToken {
 
   def email: String
 
-  def expirationTime: DateTime
+  def expirationTime: Timestamp
 
-  def isExpired = expirationTime.isBeforeNow
+  def isExpired = new org.joda.time.DateTime(expirationTime.getTime).isBeforeNow
 
 }
 

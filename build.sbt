@@ -8,15 +8,13 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 scalaVersion := "2.11.8"
 
-libraryDependencies ++= Seq(
-  "com.typesafe.slick" %% "slick" % "3.1.1",
-  "com.typesafe.play" %% "play-slick" % "2.0.2"
-)
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-
 libraryDependencies ++= Seq(
+  "com.typesafe.slick" %% "slick" % "3.1.1",
+  "com.typesafe.play" %% "play-slick" % "2.0.2",
+  "org.webjars" %% "webjars-play" % "2.5.0-4",
   "com.mohiva" %% "play-silhouette" % "4.0.0",
   "com.mohiva" %% "play-silhouette-password-bcrypt" % "4.0.0",
   "com.mohiva" %% "play-silhouette-crypto-jca" % "4.0.0",

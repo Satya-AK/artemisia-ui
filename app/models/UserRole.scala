@@ -9,4 +9,4 @@ package models
   * @param id profile id
   * @param roleName name of the profile
   */
-case class UserRole(id: Option[Int], roleName: String)
+case class UserRole(id: Int, roleName: String)

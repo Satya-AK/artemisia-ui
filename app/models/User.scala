@@ -18,7 +18,7 @@ import utils.silhouette.IdentitySilhouette
   * @param activated
   */
 case class User(
-                id: Option[Long],
+                id: Option[Int],
                 email: String,
                 nickName: String,
                 firstName: String,
