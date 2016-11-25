@@ -4,10 +4,9 @@ name := """artemisia-ui"""
 
 version := "1.0-SNAPSHOT"
 
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+resolvers += Resolver.jcenterRepo
 
 scalaVersion := "2.11.8"
-
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
@@ -19,7 +18,9 @@ libraryDependencies ++= Seq(
   "com.mohiva" %% "play-silhouette-password-bcrypt" % "4.0.0",
   "com.mohiva" %% "play-silhouette-crypto-jca" % "4.0.0",
   "com.mohiva" %% "play-silhouette-persistence" % "4.0.0",
-  "com.mohiva" %% "play-silhouette-testkit" % "4.0.0" % "test"
+  "com.mohiva" %% "play-silhouette-testkit" % "4.0.0" % "test",
+  "com.typesafe.play" %% "play-mailer" % "5.0.0",
+  "com.iheart" %% "ficus" % "1.3.4"
 )
 
 lazy val buildReactApp = taskKey[Unit]("build react application")
