@@ -13,7 +13,7 @@ import scala.concurrent.Future
   */
 
 
-case class Authenticator(minimumRole: BaseUserRole) extends Authorization[User, CookieAuthenticator]  {
+case class AuthorityManager(minimumRole: BaseUserRole) extends Authorization[User, CookieAuthenticator]  {
 
   override def isAuthorized[B](identity: User, authenticator: CookieAuthenticator)(implicit request: Request[B]) = {
     Future.successful(UserRole.getUserRole(identity.roleId).isSubordinate(minimumRole))

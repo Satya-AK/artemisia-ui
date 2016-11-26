@@ -1,8 +1,6 @@
 package models
 
-import com.mohiva.play.silhouette.password.BCryptPasswordHasher
-import utils.silhouette.IdentitySilhouette
-
+import com.mohiva.play.silhouette.api.Identity
 
 /**
   * Created by chlr on 11/23/16.
@@ -26,19 +24,5 @@ case class User(
                 lastName: String,
                 password: String,
                 activated: Boolean,
-                roleId: Int) extends
-  IdentitySilhouette {
-
-    def key = email
-
-    def fullName: String = firstName + " " + lastName
-
-  /**
-    * creates a copy of the User model but with the password hashed
-    * @return
-    */
-  def withEncryptPassword = this.copy(password =  new BCryptPasswordHasher().hash(password).password)
-
-  }
-
+                roleId: Int) extends Identity
 

@@ -8,3 +8,10 @@
 GET     /                           controllers.Assets.at(path="/public", file="index.html")
 GET     /static/*file               controllers.Assets.at(path="/public/static", file)
 GET     /webjars/*file              controllers.WebJarAssets.at(file)
+
+
+POST    /signup                     @controllers.AuthController.signUp
+POST    /signin                     @controllers.AuthController.authenticate
+
+
+GET     /evolutions                 @controllers.ModelController.generate

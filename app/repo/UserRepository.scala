@@ -22,12 +22,12 @@ class UserRepository @Inject() (protected val dbConfigProvider: DatabaseConfigPr
   import driver.api._
 
   def insert(user: User): Future[Int] = db.run {
-    logger.debug(s"inserting Job: ${user.toString}")
+    logger.debug(s"inserting Job: ${user.email}")
     userTableQueryInc += user
   }
 
   def update(user: User): Future[Int] = db.run {
-    logger.debug(s"updating user ${user.toString}")
+    logger.debug(s"updating user ${user.email}")
     userTableQuery.filter(_.id === user.id).update(user)
   }
 
@@ -79,10 +79,9 @@ object UserRepository {
       val nickName = column[String]("nickname", O.SqlType("VARCHAR(40)"))
       val firstName = column[String]("first_name", O.SqlType("VARCHAR(40)"))
       val lastName = column[String]("last_name", O.SqlType("VARCHAR(40)"))
-      val password = column[String]("password", O.SqlType("VARCHAR(40)"))
+      val password = column[String]("password", O.SqlType("VARCHAR(100)"))
       val activated = column[Boolean]("activated")
       val roleId = column[Int]("role_id")
-
 
       def emailUnique = index("email_unique_key", email, unique = true)
 
