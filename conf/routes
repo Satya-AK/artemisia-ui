@@ -12,6 +12,7 @@ GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
 POST    /signup                     @controllers.AuthController.signUp
 POST    /signin                     @controllers.AuthController.authenticate
+GET     /test                       @controllers.AuthController.test
 
 
 GET     /evolutions                 @controllers.ModelController.generate

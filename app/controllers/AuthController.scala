@@ -81,8 +81,8 @@ class AuthController @Inject() (
       userService.retrieve(loginInfo).flatMap {
         case Some(user) => for {
           authenticator <- env.authenticatorService.create(loginInfo)
-          cookie <- env.authenticatorService.init(authenticator)
-          result <- env.authenticatorService.embed(cookie, Ok("Successful Authentication"))
+          jwtAuthenticator <- env.authenticatorService.init(authenticator)
+          result <- env.authenticatorService.embed(jwtAuthenticator, Ok("Successful Authentication"))
         } yield {
           env.eventBus.publish(LoginEvent(user, request))
           result
@@ -95,6 +95,11 @@ class AuthController @Inject() (
         BadRequest(e.getMessage)
       }
     }
+  }
+
+
+  def test = SecuredAction {
+    Ok("Bingo Mofo!!!")
   }
 
 }
